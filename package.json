@@ -1,0 +1,12 @@
+{
+  "name": "GamblingBot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Team-WAVE-x/GamblingBot",
+  "author": "시혁 박 <exon.indiv@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "path": "^0.12.7"
+  }
+}
