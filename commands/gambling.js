@@ -11,20 +11,25 @@ const connection = mysql.createConnection({
 })
 
 exports.run = (client, message, args) => {
+
   let sql = `SELECT * FROM users WHERE id like '${message.author.id}'`
   connection.query(sql, (err, rows, fields) => {
-    if (err) console.log(err)
-    if (!rows.length) {
-      sql = `INSERT INTO users VALUES ('${message.author.id}', 10)`
-      connection.query(sql, (err, rows, fields) => { if (err) console.log(err) })
-      message.channel.send(new MessageEmbed().addField('가입 완료', '가입 완료함 ㅅㄱ'))
-    } else message.channel.send(new MessageEmbed().addField('가입 이미했', '가입 이미했자나'))
+    if (Math.floor(Math.random() * Math.floor(2))) {
+      message.channel.send('도박 성공 ㅅㄱ 남은 돈: ' + rows[0].money * 2)
+      sql = `UPDATE users SET money = ${rows[0].money * 2} WHERE id = '${message.author.id}'`
+      connection.query(sql)
+    } else {
+      message.channel.send('도박 실패 ㅅㄱ 남은 돈: ' + 0)
+      sql = `UPDATE users SET money = 0 WHERE id = '${message.author.id}'`
+      connection.query(sql)
+    }
+    console.log()
   })
 }
 
 module.exports.help = {
-  name: 'register',
-  desc: '가입합니다',
-  alias: ['가입', 'rkdlq'],
+  name: 'gambling',
+  desc: '도박 명령어임',
+  alias: ['도박', 'ehqkr'],
   authority: 'Basic'
 }
