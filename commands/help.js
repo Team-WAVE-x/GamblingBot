@@ -17,5 +17,5 @@ module.exports.help = {
   name: 'help',
   desc: '이 메세지를 출력합니다',
   alias: ['도움', '도움말', 'ehdna', 'ehdnaakf'],
-  authority: 'Developer'
+  authority: 'Basic'
 }
