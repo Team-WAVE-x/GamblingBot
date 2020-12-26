@@ -10,6 +10,7 @@
     ],
     "mysql": {
         "host": "localhost",
+        "port": "3305",
         "user": "root",
         "password": "password",
         "database": "database"

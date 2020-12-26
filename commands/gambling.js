@@ -1,31 +1,22 @@
 const { MessageEmbed } = require('discord.js')
-const settings = require('../settings.json')
-const mysql = require('mysql2')
-
-const connection = mysql.createConnection({
-  host     : settings.mysql.host,
-  port     : settings.mysql.port,
-  user     : settings.mysql.user,
-  password : settings.mysql.password,
-  database : settings.mysql.database
-})
+const knex = require('knex')
 
 exports.run = (client, message, args) => {
   let sql = `SELECT * FROM users WHERE id like '${message.author.id}'`
-  connection.query(sql, (err, rows, fields) => {
+  client.db.query(sql, (err, rows, fields) => {
     if (err) console.log(err)
     if (!rows.length) message.channel.send(new MessageEmbed().addField('가입 먼저 해', '`$가입` 하라고요'))
     else {
       sql = `SELECT * FROM users WHERE id like '${message.author.id}'`
-      connection.query(sql, (err, rows, fields) => {
+      client.db.query(sql, (err, rows, fields) => {
         if (Math.floor(Math.random() * Math.floor(2))) {
           message.channel.send('도박 성공 ㅅㄱ 남은 돈: ' + rows[0].money * 2)
           sql = `UPDATE users SET money = ${rows[0].money * 2} WHERE id = '${message.author.id}'`
-          connection.query(sql)
+          client.db.query(sql)
         } else {
           message.channel.send('도박 실패 ㅅㄱ 남은 돈: ' + 0)
           sql = `UPDATE users SET money = 0 WHERE id = '${message.author.id}'`
-          connection.query(sql)
+          client.db.query(sql)
         }
       })
     }
