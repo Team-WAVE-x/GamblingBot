@@ -1,30 +1,19 @@
 const { MessageEmbed } = require('discord.js')
-const knex = require('knex')({
-  client: 'mysql2'
-})
 
-exports.run = (client, message, args) => {
+exports.run = async (client, message, args) => {
   const { db } = client
-  let sql = `SELECT * FROM users WHERE id like '${message.author.id}'`
-  db.query(sql, (err, rows, fields) => {
-    if (err) console.log(err)
-    if (!rows.length) message.channel.send(new MessageEmbed().addField('가입 먼저 해', '`$가입` 하라고요'))
-    else {
-      sql = `SELECT * FROM users WHERE id like '${message.author.id}'`
-      db.query(sql, (err, rows, fields) => {
-        if (Math.floor(Math.random() * Math.floor(2))) {
-          message.channel.send('도박 성공 ㅅㄱ 남은 돈: ' + rows[0].money * 2)
-          sql = `UPDATE users SET money = ${rows[0].money * 2} WHERE id = '${message.author.id}'`
-          db.query(sql)
-        } else {
-          message.channel.send('도박 실패 ㅅㄱ 남은 돈: ' + 0)
-          sql = `UPDATE users SET money = 0 WHERE id = '${message.author.id}'`
-          db.query(sql)
-        }
-      })
+  const rows = await db('users').select('*').where('id', message.author.id)
+  if (!rows.length) message.channel.send(new MessageEmbed().addField('가입 먼저 해', '`$가입` 하라고요'))
+  else {
+    const { money } = (await db('users').select('*').where('id', message.author.id))[0]
+    if (Math.floor(Math.random() * Math.floor(2))) {
+      message.channel.send('도박 성공 ㅅㄱ 남은 돈: ' + (money * 2))
+      await db('users').update({ money : money * 2 }).where('id', message.author.id)
+    } else {
+      message.channel.send('도박 실패 ㅅㄱ 남은 돈: ' + 0)
+      await db('users').update({ money : 0 }).where('id', message.author.id)
     }
-  })
-  
+  }
 }
 
 module.exports.help = {

@@ -1,16 +1,13 @@
 const { MessageEmbed } = require('discord.js')
 
-exports.run = (client, message, args) => {
+exports.run = async (client, message, args) => {
   const { db } = client
-  let sql = `SELECT * FROM users WHERE id like '${message.author.id}'`
-  db.query(sql, (err, rows, fields) => {
-    if (err) console.log(err)
-    if (!rows.length) message.channel.send(new MessageEmbed().addField('가입 먼저 해', '`$가입` 하라고요'))
-    else {
-      sql = `SELECT * FROM users WHERE id like '${message.author.id}'`
-      db.query(sql, (err, rows, fields) => message.channel.send('돈: ' + rows[0].money))
-    }
-  })
+  const rows = await db('users').select('*').where('id', message.author.id)
+  if (!rows.length) message.channel.send(new MessageEmbed().addField('가입 먼저 해', '`$가입` 하라고요'))
+  else {
+    const { money } = (await db('users').select('*').where('id', message.author.id))[0]
+    message.channel.send('돈: ' + money)
+  }
 }
 
 module.exports.help = {

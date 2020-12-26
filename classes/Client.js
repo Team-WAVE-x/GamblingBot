@@ -3,14 +3,15 @@ const { Client } = require('discord.js')
 const { existsSync } = require('fs')
 const { readRecursively } = require('../utils/readFiles')
 const settings = require('../settings.json')
-const mysql = require('mysql2')
-
-const connection = mysql.createConnection({
-  host     : settings.mysql.host,
-  port     : settings.mysql.port,
-  user     : settings.mysql.user,
-  password : settings.mysql.password,
-  database : settings.mysql.database
+const knex = require('knex')({
+  client: 'mysql2',
+  connection: {
+    host     : settings.mysql.host,
+    port     : settings.mysql.port,
+    user     : settings.mysql.user,
+    password : settings.mysql.password,
+    database : settings.mysql.database
+  }
 })
 
 class eClient extends Client {
@@ -18,7 +19,7 @@ class eClient extends Client {
     super()
     this.tt = {}
 
-    this.db = connection
+    this.db = knex
 
     this.tt.settingPath = path() + '/settings.json'
     this.tt.settingHas = existsSync(this.tt.settingPath)
