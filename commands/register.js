@@ -1,8 +1,7 @@
 const { MessageEmbed } = require('discord.js')
-const settings = require('../settings.json')
 
 exports.run = (client, message, args) => {
-  const db = client.db
+  const { db } = client
   let sql = `SELECT * FROM users WHERE id like '${message.author.id}'`
   db.query(sql, (err, rows, fields) => {
     if (err) console.log(err)
