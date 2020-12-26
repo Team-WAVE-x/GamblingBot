@@ -1,18 +1,10 @@
 const { MessageEmbed } = require('discord.js')
 const settings = require('../settings.json')
-const mysql = require('mysql2')
-
-const connection = mysql.createConnection({
-  host     : settings.mysql.host,
-  port     : settings.mysql.port,
-  user     : settings.mysql.user,
-  password : settings.mysql.password,
-  database : settings.mysql.database
-})
 
 exports.run = (client, message, args) => {
+  const db = client.db
   let sql = `SELECT * FROM users WHERE id like '${message.author.id}'`
-  connection.query(sql, (err, rows, fields) => {
+  db.query(sql, (err, rows, fields) => {
     if (err) console.log(err)
     if (!rows.length) {
       sql = `INSERT INTO users VALUES ('${message.author.id}', 100)`
@@ -23,8 +15,8 @@ exports.run = (client, message, args) => {
 }
 
 module.exports.help = {
-  name: 'register',
+  name: '가입',
   desc: '가입합니다',
-  alias: ['가입', 'rkdlq'],
+  alias: ['rkdlq'],
   authority: 'Basic'
 }
