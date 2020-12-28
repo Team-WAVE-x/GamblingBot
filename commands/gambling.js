@@ -16,7 +16,7 @@ exports.run = async (client, message, args) => {
           message.channel.send('도박 실패 ㅅㄱ 남은 돈: ' + (money - gamblingMoney))
           await db('users').update({ money : money - gamblingMoney }).where('id', message.author.id)
         }
-      } else message.channel.send('도박할 돈도 없으면서 도박하지 마')
+      } else message.channel.send('도박할 돈도 없으면서 도박하지 마 ||니가 폐인이냐?||')
     } else message.channel.send('`$도박 [도박할 돈]`')
   }
 }
