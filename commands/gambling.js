@@ -9,10 +9,15 @@ exports.run = async (client, message, args) => {
     if (gamblingMoney && gamblingMoney > 0 && Number.isInteger(gamblingMoney)) {
       const { money } = (await db('users').select('*').where('id', message.author.id))[0]
       if (gamblingMoney <= money) {
-        if (Math.floor(Math.random() * Math.floor(2))) {
+        const rand = Math.floor(Math.random() * Math.floor(1000))
+        if (rand < 499) {
           message.channel.send('도박 성공 ㅅㄱ 남은 돈: ' + (gamblingMoney + money))
           await db('users').update({ money : gamblingMoney + money }).where('id', message.author.id)
-        } else {
+        } else if (rand < 500) {
+          message.channel.send('잭팟이 터졌네 펑펑 와 축 하 드 려 요! 남은 돈: ' + (money + (gamblingMoney * 100)))
+          await db('users').update({ money : money + (gamblingMoney * 100) }).where('id', message.author.id)
+        }
+        else {
           message.channel.send('도박 실패 ㅅㄱ 남은 돈: ' + (money - gamblingMoney))
           await db('users').update({ money : money - gamblingMoney }).where('id', message.author.id)
         }
