@@ -6,7 +6,6 @@ module.exports = (client, msg) => {
 
   const query = new Query(client.settings.prefix, msg.content)
   const target = client.commands.find((c) => c.help.alias.includes(query.cmd) || c.help.name === query.cmd)
-  console.log(target)
 
   if (target) target.run(client, msg, query.args)
 }
