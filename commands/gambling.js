@@ -17,17 +17,17 @@ async function rand(gamblingMoney, money, message, db) {
   if (gamblingMoney <= money) {
     const rand = Math.floor(Math.random() * Math.floor(100))
     if (rand < 49) {
-      message.channel.send(`<@${message.author.id}> 도박 성공 ㅅㄱ 남은 돈: ` + (gamblingMoney + money))
+      message.channel.send(`:tada: <@${message.author.id}> 도박 성공 \`+${gamblingMoney}\`\n남은 돈: ` + (gamblingMoney + money))
       await db('users').update({ money : gamblingMoney + money }).where('id', message.author.id)
     } else if (rand < 50) {
-      message.channel.send(`<@${message.author.id}> 잭팟이 터졌네 펑펑 와 축 하 드 려 요! 남은 돈: ` + (money + (gamblingMoney * 100)))
+      message.channel.send(`\\🏅 <@${message.author.id}> 잭팟이 터졌네 펑펑 와 축 하 드 려 요! \`+${gamblingMoney * 99}\`\n남은 돈: ` + (money + (gamblingMoney * 100)))
       await db('users').update({ money : money + (gamblingMoney * 99) }).where('id', message.author.id)
     }
     else {
-      message.channel.send(`<@${message.author.id}> 도박 실패 ㅅㄱ 남은 돈: ` + (money - gamblingMoney))
+      message.channel.send(`:boom: <@${message.author.id}> 도박 실패 ㅅㄱ \`-${gamblingMoney}\`\n남은 돈: ` + (money - gamblingMoney))
       await db('users').update({ money : money - gamblingMoney }).where('id', message.author.id)
     }
-  } else message.channel.send(`<@${message.author.id}> 도박할 돈도 없으면서 도박하지 마 ||니가 폐인이냐?||`)
+  } else message.channel.send(`<@${message.author.id}> 도박할 돈도 없으면서 도박하지 마`)
 }
 
 module.exports.help = {
