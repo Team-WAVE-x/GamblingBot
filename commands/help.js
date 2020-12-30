@@ -14,8 +14,8 @@ exports.run = (client, message, args) => {
 }
 
 module.exports.help = {
-  name: 'help',
+  name: '도움',
   desc: '이 메세지를 출력합니다',
-  alias: ['도움', '도움말', 'ehdna', 'ehdnaakf'],
+  alias: ['help', '도움말', 'ehdna', 'ehdnaakf'],
   authority: 'Basic'
 }

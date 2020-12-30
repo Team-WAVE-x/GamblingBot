@@ -13,6 +13,6 @@ exports.run = async (client, message, args) => {
 module.exports.help = {
   name: '돈',
   desc: '돈 보여주는 명령어임',
-  alias: ['돈', 'ehs'],
+  alias: ['돈', 'ehs', '지갑', 'wlrkq'],
   authority: 'Basic'
 }
