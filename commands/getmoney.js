@@ -13,7 +13,7 @@ exports.run = async (client, message, args) => {
     message.channel.send(`<@${message.author.id}> 돈 받음.\n현재 돈 : ` + (money + 100))
     cooltime.add(message.author.id)
     setTimeout(() => { cooltime.delete(message.author.id) }, 15000)
-    } else message.channel.send(`<@${message.author.id}> 쿨타임임 좀만 기다리셈`)
+    } else message.channel.send(`<@${message.author.id}> 쿨타임임 좀만 기다려주세요.\n쿨타임은 15초입니다.`)
   }
 }
 
