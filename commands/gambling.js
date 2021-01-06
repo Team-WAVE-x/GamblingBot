@@ -3,13 +3,13 @@ const { MessageEmbed } = require('discord.js')
 exports.run = async (client, message, args) => {
   const { db } = client
   const rows = await db('users').select('*').where('id', message.author.id)
-  if (!rows.length) message.channel.send(new MessageEmbed().addField('가입 먼저 해', '`$가입` 하라고요'))
+  if (!rows.length) message.channel.send(new MessageEmbed().addField('가입', '`$가입` 해주세요'))
   else {
     const gamblingMoney = Number(args)
     const { money } = (await db('users').select('*').where('id', message.author.id))[0]
     if (gamblingMoney && gamblingMoney > 0 && Number.isInteger(gamblingMoney)) await rand(gamblingMoney, money, message, db)
     else if (args[0] === '올인' && money > 0) await rand(money, money, message, db)
-    else message.channel.send(`<@${message.author.id}> \`$도박 [도박할 돈]\` 소수 음수 안됨`)
+    else message.channel.send(`<@${message.author.id}> \`$도박 [도박할 돈]\` 도박할 돈은 양의 정수만 가능합니다.`)
   }
 }
 
@@ -26,10 +26,10 @@ async function rand(gamblingMoney, money, message, db) {
       message.channel.send(`:boom: <@${message.author.id}> 도박 실패 \`-${gamblingMoney}\`\n남은 돈: ${money - gamblingMoney}`)
       await db('users').update({ money : money - gamblingMoney }).where('id', message.author.id)
     } else {
-      message.channel.send(`:boom::boom::boom::boom: <@${message.author.id}> 당신의 지갑이 폭파되었습니다.. \`=0\`\n남은 돈: 0`)
+      message.channel.send(`:boom::boom::boom::boom: <@${message.author.id}> 당신의 지갑이 폭파되었습니다.. \`-${money}\`\n남은 돈: 0`)
       await db('users').update({ money : 0 }).where('id', message.author.id)
     }
-  } else message.channel.send(`<@${message.author.id}> 도박할 돈도 없으면서 도박하지 마`)
+  } else message.channel.send(`<@${message.author.id}> 도박할 돈도 없으면서 도박하지 말아주세요!`)
 }
 
 module.exports.help = {
