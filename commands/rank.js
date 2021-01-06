@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js')
+const { comma } = require('../utils/comma')
 
 exports.run = async (client, message, args) => {
   const { db } = client
@@ -8,7 +9,7 @@ exports.run = async (client, message, args) => {
   for (let i = 0; i < 10; i++)
     if (rows[i]) {
       const user = await client.users.fetch(rows[i].id)
-      embed.addField(`${i + 1}위 ${user.username}님`, `${rows[i].money}원`, true)
+      embed.addField(`${i + 1}위 ${user.username}님`, `${comma(rows[i].money)}원`, true)
     }
   message.channel.send(embed)
 }

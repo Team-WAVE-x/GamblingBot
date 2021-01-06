@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js')
+const { comma } = require('../utils/comma')
 
 exports.run = async (client, message, args) => {
   const { db } = client
@@ -6,7 +7,7 @@ exports.run = async (client, message, args) => {
   if (!rows.length) message.channel.send(new MessageEmbed().addField('가입', '`$가입` 해주세요'))
   else {
     const { money } = (await db('users').select('*').where('id', message.author.id))[0]
-    message.channel.send('돈: ' + money)
+    message.channel.send('돈: ' + comma(money))
   }
 }
 
