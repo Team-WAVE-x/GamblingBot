@@ -8,7 +8,7 @@ exports.run = async (client, message, args) => {
     const gamblingMoney = Number(args)
     const { money } = (await db('users').select('*').where('id', message.author.id))[0]
     if (gamblingMoney && gamblingMoney > 0 && Number.isInteger(gamblingMoney)) await rand(gamblingMoney, money, message, db)
-    else if (args[0] === '올인') await rand(money, money, message, db)
+    else if (args[0] === '올인' && gamblingMoney > 0) await rand(money, money, message, db)
     else message.channel.send(`<@${message.author.id}> \`$도박 [도박할 돈]\` 소수 음수 안됨`)
   }
 }
@@ -25,8 +25,7 @@ async function rand(gamblingMoney, money, message, db) {
     } else if (rand < 99) {
       message.channel.send(`:boom: <@${message.author.id}> 도박 실패 \`-${gamblingMoney}\`\n남은 돈: ${money - gamblingMoney}`)
       await db('users').update({ money : money - gamblingMoney }).where('id', message.author.id)
-    }
-    else {
+    } else {
       message.channel.send(`:boom::boom::boom::boom: <@${message.author.id}> 당신의 지갑이 폭파되었습니다.. \`=0\`\n남은 돈: 0`)
       await db('users').update({ money : 0 }).where('id', message.author.id)
     }

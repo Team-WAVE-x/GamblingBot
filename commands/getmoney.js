@@ -5,7 +5,7 @@ const cooltime = new Set()
 exports.run = async (client, message, args) => {
   const { db } = client
   const rows = await db('users').select('*').where('id', message.author.id)
-  if (!rows.length) message.channel.send(new MessageEmbed().addField('가입 먼저 해', '`$가입` 하라고요'))
+  if (!rows.length) message.channel.send(new MessageEmbed().addField('가입 먼저 해주세요', '`$가입`'))
   else {
     if (!cooltime.has(message.author.id)) {
     const { money } = (await db('users').select('*').where('id', message.author.id))[0]
