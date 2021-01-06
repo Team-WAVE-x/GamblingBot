@@ -8,7 +8,7 @@ exports.run = async (client, message, args) => {
     const gamblingMoney = Number(args)
     const { money } = (await db('users').select('*').where('id', message.author.id))[0]
     if (gamblingMoney && gamblingMoney > 0 && Number.isInteger(gamblingMoney)) await rand(gamblingMoney, money, message, db)
-    else if (args[0] === '올인' && gamblingMoney > 0) await rand(money, money, message, db)
+    else if (args[0] === '올인' && money > 0) await rand(money, money, message, db)
     else message.channel.send(`<@${message.author.id}> \`$도박 [도박할 돈]\` 소수 음수 안됨`)
   }
 }
