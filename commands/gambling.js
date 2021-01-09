@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js')
 const { comma } = require('../utils/comma')
+const { getMoney } = require('../utils/getMoney')
 
 exports.run = async (client, message, args) => {
   const { db } = client

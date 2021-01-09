@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js')
 const { comma } = require('../utils/comma')
+const { getMoney } = require('../utils/getMoney')
 
 const cooltime = new Set()
 
